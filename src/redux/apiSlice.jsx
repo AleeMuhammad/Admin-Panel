@@ -16,7 +16,7 @@ export const apiSlice = createApi({
   // refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     getCategory: builder.query({
-      query: () => "/cat/category",
+      query: ({limit=10,offset=0}) => `/cat/category?limit=${limit}&offset=${offset}`,
       providesTags: ["Categories"],
     }),
     addCategory: builder.mutation({
@@ -97,7 +97,7 @@ export const apiSlice = createApi({
     }),
     sendNotification : builder.mutation({
       query:(notification)=>({
-        url:'/notification/sendd',
+        url:'/notification/send',
         method:'POST',
         body:notification
       })
