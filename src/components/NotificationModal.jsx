@@ -16,6 +16,7 @@ const NotificationModal = ({ setIsModalOpen }) => {
   
 
   const onSubmit = async(data) => {
+    console.log(data);
    const response=await sendnotification(data);
    if(response?.error){
     console.log(response?.error?.data?.message);
@@ -63,25 +64,25 @@ const NotificationModal = ({ setIsModalOpen }) => {
 
           <div className="flex flex-col">
             <label
-              htmlFor="message"
+              htmlFor="body"
               className="mb-1 text-sm font-medium text-gray-700"
             >
               Notification Message
             </label>
             <textarea
-              id="message"
+              id="body"
               rows={4}
               placeholder="Enter message"
               className={`border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none ${
                 errors.message ? "border-red-500" : "border-gray-300"
               }`}
-              {...register("message", {
+              {...register("body", {
                 required: "Notification message is required",
               })}
             />
-            {errors.message && (
+            {errors.body && (
               <span className="text-red-500 text-sm mt-1">
-                {errors.message.message}
+                {errors.body.message}
               </span>
             )}
           </div>
