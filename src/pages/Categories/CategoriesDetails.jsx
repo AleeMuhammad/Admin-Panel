@@ -12,7 +12,6 @@ import {
   useGetProductsQuery,
   useUpdateProductMutation,
 } from "../../redux/apiSlice";
-import { FaDeleteLeft } from "react-icons/fa6";
 import { MdDelete, MdOutlineModeEditOutline } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 

@@ -57,10 +57,9 @@ const EditProfileModal = ({onClose,userProfile,onSubmitProfile}) => {
                 <input
                   type='email'
                   defaultValue={userProfile?.email}
-                  {...register("email", {
-                    required: "Email is required",
-                  })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  disabled
+                  {...register("email")}
+                  className="w-full px-4 py-2 border cursor-not-allowed border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                   placeholder="Enter email"
                 />
                 {errors.email && (
@@ -117,14 +116,9 @@ const EditProfileModal = ({onClose,userProfile,onSubmitProfile}) => {
                 <input
                   type="file"
                   accept="image/*"
-                  {...register("image", { required: true })}
+                  {...register("image")}
                   className="w-full px-4 file:cursor-pointer border border-gray-300 rounded-lg text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 py-1 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                 />
-                {errors.image && (
-                  <p className="text-red-500 text-xs mt-1">
-                    This field is required
-                  </p>
-                )}
               </div>
 
               <div>

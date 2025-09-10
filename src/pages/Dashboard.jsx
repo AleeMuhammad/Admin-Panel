@@ -39,7 +39,6 @@ const Dashboard = () => {
       return orderDateOnly === mostRecentDateOnly;
     });
 
-    // Assign to declared variable
     recentOrderItems = filtered
       .flatMap((order) => order.orderItems)
       .map((item) => ({
@@ -124,7 +123,6 @@ const Dashboard = () => {
             </div>
             <div className="overflow-x-auto ">
               <table className="w-full">
-                {/* Table Header */}
                 <thead className="border-gray-100 border-y ">
                   <tr>
                     <td className="px-5 py-3 font-medium text-gray-500 ">Name</td>
