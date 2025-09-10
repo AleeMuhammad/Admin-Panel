@@ -167,7 +167,7 @@ export const apiSlice = createApi({
       invalidatesTags: ["Categories"],
     }),
     getProducts: builder.query({
-      query: (id) => `/item/all?categoryId=${id}`,
+      query: ({id,limit,offset}) => `/item/all?categoryId=${id}&limit=${limit}&offset=${offset}`,
       providesTags: ["Product"],
     }),
     addProduct: builder.mutation({
@@ -224,7 +224,7 @@ export const apiSlice = createApi({
       query: () => "/order/all",
     }),
     getUsers: builder.query({
-      query: () => "/user/allUsers",
+      query: ({limit,offset}) => `/user/allUsers?limit=${limit}&offset=${offset}`,
       providesTags: ["User"],
     }),
     deleteUser: builder.mutation({
