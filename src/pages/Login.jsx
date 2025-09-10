@@ -29,12 +29,13 @@ const Login = () => {
     }).unwrap();
     console.log(response);
 
-    if (data.rememberme === false) {
-      await persistor.purge();
-      dispatch(loginSessionOnly(response)); 
-    } else {
+    // if (data.rememberme === false) {
+    //   await persistor.purge();
+    //   dispatch(loginSessionOnly(response)); 
+    // } else {
+    //   dispatch(loginuser(response)); 
+    // }
       dispatch(loginuser(response)); 
-    }
 
     toast.success("Login Successful");
     navigate("/", { replace: true });
