@@ -255,7 +255,7 @@ const CategoriesDetails = () => {
                                   setProductToEdit(prod);
                                   setIsModalOpen(true);
                                 }}
-                                className="px-2 py-2 text-[#798295] hover:text-gray-500"
+                                className="px-2 py-2 text-[#798295] hover:text-gray-500 cursor-pointer"
                               >
                                 <MdOutlineModeEditOutline size={20} />
                               </button>
@@ -264,7 +264,7 @@ const CategoriesDetails = () => {
                                   setIsDeleteModalOpen(true);
                                   setProductToDelete(prod._id);
                                 }}
-                                className="py-2 text-[#798295] hover:text-red-600"
+                                className="py-2 text-[#798295] hover:text-red-600 cursor-pointer"
                               >
                                 <RiDeleteBin6Line size={20} />
                               </button>

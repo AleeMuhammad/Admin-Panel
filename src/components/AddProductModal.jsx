@@ -26,7 +26,7 @@ const AddProductModal = ({
         price: productToEdit.price,
         details: productToEdit.details,
         oldPrice: productToEdit.oldPrice,
-        image: null, // you can’t set image file in input, leave it empty
+        // image: null, // file input ko empty rakho
       });
     } else {
       reset({
@@ -137,14 +137,15 @@ const AddProductModal = ({
             </div>
 
             <div className="space-y-5">
-              <div>
+             {!productToEdit && (
+               <div>
                 <label className="block mb-1 text-sm font-medium text-gray-700">
                   Product Details
                 </label>
                 <input
                   type="text"
                   {...register("details", { required: true })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  className="w-full px-4 py-2 border border-gray-300  rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                   placeholder="Enter product details"
                 />
                 {errors.details && (
@@ -153,15 +154,18 @@ const AddProductModal = ({
                   </p>
                 )}
               </div>
+             )}
 
-              <div>
+             {!productToEdit && ( <div>
                 <label className="block mb-1 text-sm font-medium text-gray-700">
                   Upload Image
                 </label>
                 <input
                   type="file"
                   accept="image/*"
-                  {...register("image", { required: true })}
+                  {...register("image", {
+                    required: !productToEdit, // Add me required, Edit me optional
+                  })}
                   className="w-full px-4  border border-gray-300 rounded-lg text-sm file:cursor-pointer text-gray-600 file:mr-4 file:py-2 file:px-4 py-1 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                 />
                 {errors.image && (
@@ -169,7 +173,7 @@ const AddProductModal = ({
                     This field is required
                   </p>
                 )}
-              </div>
+              </div>)}
 
               <div>
                 <label className="block mb-1 text-sm font-medium text-gray-700">
@@ -196,7 +200,7 @@ const AddProductModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-gray-600  cursor-pointer text-white w-28 rounded-lg hover:bg-gray-700 text-sm font-medium transition-colors"
+              className="px-4 py-2 bg-gray-600 cursor-pointer text-white w-28 rounded-lg hover:bg-gray-700 text-sm font-medium transition-colors"
             >
               Cancel
             </button>

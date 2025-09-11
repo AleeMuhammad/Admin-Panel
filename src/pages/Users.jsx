@@ -40,14 +40,14 @@ const Users = () => {
     setCurrentPage(1);
   };
 
-  const handleSortChange = (field) => {
-    if (field === sortField) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setSortOrder("asc");
-    }
-  };
+  // const handleSortChange = (field) => {
+  //   if (field === sortField) {
+  //     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  //   } else {
+  //     setSortField(field);
+  //     setSortOrder("asc");
+  //   }
+  // };
 
   const filteredUsers =
     users?.data?.filter((user) => {
@@ -58,14 +58,14 @@ const Users = () => {
       );
     }) || [];
 
-  const sortedUsers = [...filteredUsers].sort((a, b) => {
-    const valA = a?.[sortField]?.toString()?.toLowerCase() || "";
-    const valB = b?.[sortField]?.toString()?.toLowerCase() || "";
+  // const sortedUsers = [...filteredUsers].sort((a, b) => {
+  //   const valA = a?.[sortField]?.toString()?.toLowerCase() || "";
+  //   const valB = b?.[sortField]?.toString()?.toLowerCase() || "";
 
-    return sortOrder === "asc"
-      ? valA.localeCompare(valB)
-      : valB.localeCompare(valA);
-  });
+  //   return sortOrder === "asc"
+  //     ? valA.localeCompare(valB)
+  //     : valB.localeCompare(valA);
+  // });
 
   const totalPages = Math.ceil((users?.count || 0) / usersPerPage);
 
@@ -103,7 +103,7 @@ const Users = () => {
           )}
         </div>
 
-        <div className="flex items-center space-x-2">
+        {/* <div className="flex items-center space-x-2">
           <span className="font-medium text-gray-500">Sort by:</span>
           <button
             onClick={() => handleSortChange("username")}
@@ -125,7 +125,7 @@ const Users = () => {
           >
             Role {sortField === "role" ? (sortOrder === "asc" ? "↑" : "↓") : ""}
           </button>
-        </div>
+        </div> */}
       </div>
 
       {isLoading ? (
@@ -136,7 +136,7 @@ const Users = () => {
         <p className="text-center text-red-600">
           {error?.data?.message || error?.error || "Something went wrong."}
         </p>
-      ) : sortedUsers.length === 0 ? (
+      ) : filteredUsers?.length === 0 ? (
         <p className="text-center mt-10 text-[#011830]">No users found.</p>
       ) : (
         <>
@@ -166,7 +166,7 @@ const Users = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y-2 divide-gray-100">
-                    {sortedUsers.map((user) => (
+                    {filteredUsers.map((user) => (
                       <tr key={user?._id}>
                         <td className="px-4 py-4">
                           <img
@@ -189,7 +189,7 @@ const Users = () => {
                               setIsDeleteModalOpen(true);
                               setUserId(user?._id);
                             }}
-                            className="px-4 py-2 hover:text-red-600 transition"
+                            className="px-4 py-2 hover:text-red-600 transition  "
                           >
                             <RiDeleteBin6Line size={20} />
                           </button>
