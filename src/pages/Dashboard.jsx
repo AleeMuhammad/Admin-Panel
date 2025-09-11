@@ -78,14 +78,14 @@ const Dashboard = () => {
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             <Card
-              title="Active Orders"
-              count={orderDetailsCount?.active ?? "0"}
-              icon={<AiOutlineLoading3Quarters className="" />}
-            />
-            <Card
               title="Pending Orders"
               count={orderDetailsCount?.pending ?? "0"}
               icon={<MdPendingActions className="" />}
+            />
+            <Card
+              title="Active Orders"
+              count={orderDetailsCount?.active ?? "0"}
+              icon={<AiOutlineLoading3Quarters className="" />}
             />
             <Card
               title="Delivered Orders"
