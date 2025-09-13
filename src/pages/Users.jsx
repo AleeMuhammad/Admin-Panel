@@ -17,7 +17,12 @@ const Users = () => {
   const usersPerPage = 10;
   const offset = (currentPage - 1) * usersPerPage;
 
-  const { data: users, isLoading, isError, error } = useGetUsersQuery({
+  const {
+    data: users,
+    isLoading,
+    isError,
+    error,
+  } = useGetUsersQuery({
     limit: usersPerPage,
     offset,
   });
@@ -66,6 +71,17 @@ const Users = () => {
   //     ? valA.localeCompare(valB)
   //     : valB.localeCompare(valA);
   // });
+
+  const makeWhatsAppLink = (number) => {
+    if (!number) return;
+    number = number.replace(/\D/g, "");
+    if (number.startsWith("0")) {
+      number = "92" + number.slice(1);
+    }
+    const url = `https://wa.me/${number}`;
+
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
 
   const totalPages = Math.ceil((users?.count || 0) / usersPerPage);
 
@@ -156,15 +172,31 @@ const Users = () => {
                 <table className="w-full min-w-[900px] text-center">
                   <thead className="border-b-2 border-gray-100">
                     <tr>
-                      <td className="px-4 py-3 font-medium text-gray-500">Image</td>
-                      <td className="px-4 py-3 font-medium text-gray-500">Username</td>
-                      <td className="px-4 py-3 font-medium text-gray-500">Email</td>
-                      <td className="px-4 py-3 font-medium text-gray-500">Mobile</td>
-                      <td className="px-4 py-3 font-medium text-gray-500">Points</td>
+                      <td className="px-4 py-3 font-medium text-gray-500">
+                        Image
+                      </td>
+                      <td className="px-4 py-3 font-medium text-gray-500">
+                        Username
+                      </td>
+                      <td className="px-4 py-3 font-medium text-gray-500">
+                        Email
+                      </td>
+                      <td className="px-4 py-3 font-medium text-gray-500">
+                        Mobile
+                      </td>
+                      <td className="px-4 py-3 font-medium text-gray-500">
+                        Points
+                      </td>
 
-                      <td className="px-4 py-3 font-medium text-gray-500">Address</td>
-                      <td className="px-4 py-3 font-medium text-gray-500">Role</td>
-                      <td className="px-4 py-3 font-medium text-gray-500">Actions</td>
+                      <td className="px-4 py-3 font-medium text-gray-500">
+                        Address
+                      </td>
+                      <td className="px-4 py-3 font-medium text-gray-500">
+                        Role
+                      </td>
+                      <td className="px-4 py-3 font-medium text-gray-500">
+                        Actions
+                      </td>
                     </tr>
                   </thead>
                   <tbody className="divide-y-2 divide-gray-100">
@@ -180,13 +212,34 @@ const Users = () => {
                             className="w-12 h-12 object-cover rounded-full"
                           />
                         </td>
-                        <td className="px-4 py-3 text-gray-500">{user?.username || "N/A"}</td>
-                        <td className="px-4 py-3 text-gray-500">{user?.email || "N/A"}</td>
-                        <td className="px-4 py-3 text-gray-500">{user?.mobile || "N/A"}</td>
-                        <td className="px-4 py-3 text-gray-500">{user?.points || "0"}</td>
+                        <td className="px-4 py-3 text-gray-500">
+                          {user?.username || "N/A"}
+                        </td>
+                        <td className="px-4 py-3 text-gray-500">
+                          {user?.email || "N/A"}
+                        </td>
+                        <td className="px-4 py-3 text-gray-500">
+                          {user?.mobile ? (
+                            <button
+                              onClick={() => makeWhatsAppLink(user.mobile)}
+                              className="text-gray-600 cursor-pointer hover:underline"
+                            >
+                              {user.mobile}
+                            </button>
+                          ) : (
+                            "N/A"
+                          )}
+                        </td>
+                        <td className="px-4 py-3 text-gray-500">
+                          {user?.points || "0"}
+                        </td>
 
-                        <td className="px-4 py-3 text-gray-500 truncate">{user?.address || "N/A"}</td>
-                        <td className="px-4 py-3 text-gray-500 capitalize">{user?.role || "N/A"}</td>
+                        <td className="px-4 py-3 text-gray-500 truncate">
+                          {user?.address || "N/A"}
+                        </td>
+                        <td className="px-4 py-3 text-gray-500 capitalize">
+                          {user?.role || "N/A"}
+                        </td>
                         <td className="px-4 py-3 text-gray-500">
                           <button
                             onClick={() => {
