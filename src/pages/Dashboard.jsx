@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Card from "../components/Card";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { MdPendingActions, MdOutlineDeliveryDining } from "react-icons/md";
+import { MdPendingActions, MdOutlineDeliveryDining, MdCancel } from "react-icons/md";
 import { toast, ToastContainer } from "react-toastify";
 import ClipLoader from "react-spinners/ClipLoader"; // spinner import
 import { Link } from "react-router-dom";
@@ -18,7 +18,7 @@ const Dashboard = () => {
   const user = useSelector((state) => state.user.currentuser);
   const { data: orderDetailsCount, isLoading } = useGetOrderDetailsCountQuery();
   const { data: totalOrderCount } = useGetTotalOrderQuery();
-  console.log(totalOrderCount);
+  console.log(orderDetailsCount);
   let recentOrderItems = [];
 
   if (totalOrderCount?.length > 0) {
@@ -76,22 +76,28 @@ const Dashboard = () => {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
             <Card
               title="Pending Orders"
-              count={orderDetailsCount?.pending ?? "0"}
+              count={orderDetailsCount?.data?.pendingOrders ?? "0"}
               icon={<MdPendingActions className="" />}
             />
             <Card
               title="Active Orders"
-              count={orderDetailsCount?.active ?? "0"}
+              count={orderDetailsCount?.data?.activeOrders ?? "0"}
               icon={<AiOutlineLoading3Quarters className="" />}
             />
             <Card
               title="Delivered Orders"
-              count={orderDetailsCount?.delivered ?? "0"}
+              count={orderDetailsCount?.data?.deliveredOrders ?? "0"}
               icon={<MdOutlineDeliveryDining className="" />}
             />
+             <Card
+              title="Rejected Orders"
+              count={orderDetailsCount?.data?.rejectedOrders ?? "0"}
+              icon={<MdCancel className="" />}
+            />
+
             <Link
               to={"/order-details"}
               state={{ totalOrders: totalOrderCount }}
@@ -101,6 +107,7 @@ const Dashboard = () => {
                 count={totalOrderCount?.length ?? "0"}
                 icon={<FaClipboardList className="" />}
               />
+
             </Link>
           </div>
 
@@ -177,106 +184,3 @@ const Dashboard = () => {
 
 export default Dashboard;
 
-// import React, { useEffect } from "react";
-// import { useSelector } from "react-redux";
-// import Card from "../components/Card";
-// import { AiOutlineLoading3Quarters } from "react-icons/ai";
-// import { MdPendingActions, MdOutlineDeliveryDining } from "react-icons/md";
-// import { ToastContainer, toast } from "react-toastify";
-// import ClipLoader from "react-spinners/ClipLoader";
-// import { Link } from "react-router-dom";
-
-// import {
-//   useGetOrderDetailsCountQuery,
-//   useGetTotalOrderQuery,
-// } from "../redux/apiSlice";
-
-// const Dashboard = () => {
-//   const user = useSelector((state) => state.user.currentuser);
-
-//   // RTK Query Hooks
-//   const {
-
-//     data: orderDetailsCount,
-//     isLoading: isLoadingOrderCount,
-//     isError: isErrorOrderCount,
-//     error: errorOrderCount,
-//   } = useGetOrderDetailsCountQuery();
-
-//   const {
-//     data: totalOrderCount,
-//     isLoading: isLoadingTotalOrders,
-//     isError: isErrorTotalOrders,
-//     error: errorTotalOrders,
-//   } = useGetTotalOrderQuery();
-
-//   const isLoading = isLoadingOrderCount || isLoadingTotalOrders;
-//   const isError = isErrorOrderCount || isErrorTotalOrders;
-
-//   // Toast error - only once, not on every render
-//   useEffect(() => {
-//     if (isErrorOrderCount && errorOrderCount) {
-//       toast.error(`Failed to fetch order numbers: ${errorOrderCount.status}`);
-//     }
-//     if (isErrorTotalOrders && errorTotalOrders) {
-//       toast.error(`Failed to fetch total orders: ${errorTotalOrders.status}`);
-//     }
-//   }, [isErrorOrderCount, errorOrderCount, isErrorTotalOrders, errorTotalOrders]);
-
-//   // Loader UI
-//   if (isLoading) {
-//     return (
-//       <div className="flex items-center justify-center min-h-[50vh]">
-//         <ClipLoader color="#011830" size={50} />
-//       </div>
-//     );
-//   }
-
-//   // Error UI
-//   if (isError) {
-//     return (
-//       <div className="flex flex-col items-center justify-center min-h-[50vh] text-red-600 text-xl font-bold">
-//         Error loading dashboard data!
-//         <ToastContainer />
-//       </div>
-//     );
-//   }
-
-//   // Success UI
-//   return (
-//     <div className="p-6 bg-[#F7F4F3] min-h-screen">
-//       <ToastContainer />
-//       <h1 className="text-3xl font-bold font-serif text-black mb-6">
-//         Welcome to Dashboard,{" "}
-//         <span className="text-[#011830]">{user?.username}</span>
-//       </h1>
-
-//       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-//         <Card
-//           title="Active Orders"
-//           count={orderDetailsCount?.active ?? "0"}
-//           icon={<AiOutlineLoading3Quarters className="text-[#011830]" />}
-//         />
-//         <Card
-//           title="Pending Orders"
-//           count={orderDetailsCount?.pending ?? "0"}
-//           icon={<MdPendingActions className="text-[#011830]" />}
-//         />
-//         <Card
-//           title="Delivered Orders"
-//           count={orderDetailsCount?.delivered ?? "0"}
-//           icon={<MdOutlineDeliveryDining className="text-[#011830]" />}
-//         />
-//         <Link to={"/order-details"} state={{'totalOrders':totalOrderCount}}>
-//           <Card
-//             title="Total Orders"
-//             count={totalOrderCount?.length ?? "0"}
-//             icon={<MdOutlineDeliveryDining className="text-[#011830]" />}
-//           />
-//         </Link>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Dashboard;

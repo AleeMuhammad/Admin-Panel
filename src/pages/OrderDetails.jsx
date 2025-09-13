@@ -75,10 +75,10 @@ const OrderDetails = () => {
                   <span
                     className={`text-xs sm:text-sm font-medium capitalize ml-1 sm:ml-2 px-1 sm:px-2 py-0.5 sm:py-1 rounded-full ${
                       order.status === "delivered"
-                        ? "bg-green-100 text-green-800"
+                        ? "bg-green-300 text-green-800"
                         : order.status === "pending"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-red-100 text-red-800"
+                        ? "bg-yellow-300 text-yellow-800"
+                        : "bg-blue-300 text-blue-800"
                     }`}
                   >
                     {order.status}
@@ -88,6 +88,12 @@ const OrderDetails = () => {
                   Date:{" "}
                   <span className="text-gray-900 font-medium">
                     {new Date(order.createdAt).toLocaleString()}
+                  </span>
+                </p>
+                <p className="text-xs sm:text-sm text-gray-600">
+                 OrderType:{" "}
+                  <span className="text-gray-900 capitalize font-medium">
+                    {order?.orderType}
                   </span>
                 </p>
               </div>

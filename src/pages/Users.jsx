@@ -160,6 +160,8 @@ const Users = () => {
                       <td className="px-4 py-3 font-medium text-gray-500">Username</td>
                       <td className="px-4 py-3 font-medium text-gray-500">Email</td>
                       <td className="px-4 py-3 font-medium text-gray-500">Mobile</td>
+                      <td className="px-4 py-3 font-medium text-gray-500">Points</td>
+
                       <td className="px-4 py-3 font-medium text-gray-500">Address</td>
                       <td className="px-4 py-3 font-medium text-gray-500">Role</td>
                       <td className="px-4 py-3 font-medium text-gray-500">Actions</td>
@@ -181,6 +183,8 @@ const Users = () => {
                         <td className="px-4 py-3 text-gray-500">{user?.username || "N/A"}</td>
                         <td className="px-4 py-3 text-gray-500">{user?.email || "N/A"}</td>
                         <td className="px-4 py-3 text-gray-500">{user?.mobile || "N/A"}</td>
+                        <td className="px-4 py-3 text-gray-500">{user?.points || "0"}</td>
+
                         <td className="px-4 py-3 text-gray-500 truncate">{user?.address || "N/A"}</td>
                         <td className="px-4 py-3 text-gray-500 capitalize">{user?.role || "N/A"}</td>
                         <td className="px-4 py-3 text-gray-500">
