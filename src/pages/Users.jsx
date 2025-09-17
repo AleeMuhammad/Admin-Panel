@@ -9,8 +9,6 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortField, setSortField] = useState("username");
-  const [sortOrder, setSortOrder] = useState("asc");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [userId, setUserId] = useState(null);
 
@@ -42,17 +40,7 @@ const Users = () => {
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-    setCurrentPage(1);
   };
-
-  // const handleSortChange = (field) => {
-  //   if (field === sortField) {
-  //     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-  //   } else {
-  //     setSortField(field);
-  //     setSortOrder("asc");
-  //   }
-  // };
 
   const filteredUsers =
     users?.data?.filter((user) => {
@@ -62,15 +50,6 @@ const Users = () => {
         user?.email?.toLowerCase().includes(q)
       );
     }) || [];
-
-  // const sortedUsers = [...filteredUsers].sort((a, b) => {
-  //   const valA = a?.[sortField]?.toString()?.toLowerCase() || "";
-  //   const valB = b?.[sortField]?.toString()?.toLowerCase() || "";
-
-  //   return sortOrder === "asc"
-  //     ? valA.localeCompare(valB)
-  //     : valB.localeCompare(valA);
-  // });
 
   const makeWhatsAppLink = (number) => {
     if (!number) return;
@@ -118,30 +97,6 @@ const Users = () => {
             />
           )}
         </div>
-
-        {/* <div className="flex items-center space-x-2">
-          <span className="font-medium text-gray-500">Sort by:</span>
-          <button
-            onClick={() => handleSortChange("username")}
-            className={`px-3 py-1 border w-32 rounded ${
-              sortField === "username"
-                ? "bg-[#011830] text-white"
-                : "bg-white text-gray-500"
-            }`}
-          >
-            Username {sortField === "username" ? (sortOrder === "asc" ? "↑" : "↓") : ""}
-          </button>
-          <button
-            onClick={() => handleSortChange("role")}
-            className={`px-3 py-1 border w-32 rounded ${
-              sortField === "role"
-                ? "bg-[#011830] text-white"
-                : "bg-white text-gray-500"
-            }`}
-          >
-            Role {sortField === "role" ? (sortOrder === "asc" ? "↑" : "↓") : ""}
-          </button>
-        </div> */}
       </div>
 
       {isLoading ? (

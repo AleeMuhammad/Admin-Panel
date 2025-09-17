@@ -56,7 +56,7 @@ const CategoriesDetails = () => {
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
   const handleClearSearch = () => {

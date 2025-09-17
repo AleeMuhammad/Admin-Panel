@@ -28,7 +28,7 @@ const Categories = () => {
 
   const HandleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
   const filteredCategories =

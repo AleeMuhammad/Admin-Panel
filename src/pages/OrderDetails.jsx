@@ -10,6 +10,16 @@ const OrderDetails = () => {
   
   const totalOrderCount = totalOrders ?? []; 
   console.log(totalOrderCount);
+
+    const makeWhatsAppLink = (number) => {
+    if (!number) return;
+    number = number.replace(/\D/g, "");
+    if (number.startsWith("0")) {
+      number = "92" + number.slice(1);
+    }
+    const url = `https://wa.me/${number}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
  
   return (
     <div className="p-4 sm:p-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
@@ -47,10 +57,19 @@ const OrderDetails = () => {
                   </span>
                 </p>
                 <p className="text-xs sm:text-sm text-gray-600">
-                  Mobile:{" "}
-                  <span className="text-gray-900 font-medium">
-                    {order.mobile}
-                  </span>
+                  Mobile: {" "}
+                   <span className=" text-gray-900">
+                          {order?.mobile ? (
+                            <button
+                              onClick={() => makeWhatsAppLink(order.mobile)}
+                              className="text-gray-900 font-medium cursor-pointer hover:underline"
+                            >
+                              {order.mobile}
+                            </button>
+                          ) : (
+                            "N/A"
+                          )}
+                        </span>
                 </p>
                 <p className="text-xs sm:text-sm text-gray-600">
                   Address:{" "}
@@ -75,10 +94,12 @@ const OrderDetails = () => {
                   <span
                     className={`text-xs sm:text-sm font-medium capitalize ml-1 sm:ml-2 px-1 sm:px-2 py-0.5 sm:py-1 rounded-full ${
                       order.status === "delivered"
-                        ? "bg-green-300 text-green-800"
+                        ? "bg-green-400 text-green-900"
                         : order.status === "pending"
-                        ? "bg-yellow-300 text-yellow-800"
-                        : "bg-blue-300 text-blue-800"
+                        ? "bg-yellow-400 text-yellow-900"
+                        :order.status === 'rejected'
+                        ? "bg-red-400 text-red-900"
+                        : "bg-blue-400 text-blue-900"
                     }`}
                   >
                     {order.status}

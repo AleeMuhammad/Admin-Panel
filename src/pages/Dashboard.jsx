@@ -1,4 +1,13 @@
 import React, { useEffect, useState } from "react";
+import {
+  BarChart, Bar, LineChart, Line, XAxis, YAxis,
+  CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend
+} from "recharts";
+import {
+  getMonthlyOrders,
+  getMonthlyRevenue,
+  getStatusDistribution,
+} from "../utils/order";
 import { useSelector } from "react-redux";
 import Card from "../components/Card";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -13,43 +22,49 @@ import {
   useGetTotalOrderQuery,
 } from "../redux/apiSlice";
 
+const COLORS = ["#033468", "#ff9800", "#4caf50", "#f44336"];
+
+
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const user = useSelector((state) => state.user.currentuser);
   const { data: orderDetailsCount, isLoading } = useGetOrderDetailsCountQuery();
   const { data: totalOrderCount } = useGetTotalOrderQuery();
-  console.log(orderDetailsCount);
-  let recentOrderItems = [];
+  // let recentOrderItems = [];
 
-  if (totalOrderCount?.length > 0) {
-    const mostRecentDate = totalOrderCount.reduce((latest, order) => {
-      const current = new Date(order.updatedAt);
-      const latestDate = new Date(latest);
-      return current > latestDate ? order.updatedAt : latest;
-    }, totalOrderCount[0].updatedAt);
+  const monthlyOrders = getMonthlyOrders(totalOrderCount || []);
+  const monthlyRevenue = getMonthlyRevenue(totalOrderCount || []);
+  const statusDistribution = getStatusDistribution(totalOrderCount || []);
 
-    const mostRecentDateOnly = new Date(mostRecentDate)
-      .toISOString()
-      .split("T")[0];
+  // if (totalOrderCount?.length > 0) {
+  //   const mostRecentDate = totalOrderCount.reduce((latest, order) => {
+  //     const current = new Date(order.updatedAt);
+  //     const latestDate = new Date(latest);
+  //     return current > latestDate ? order.updatedAt : latest;
+  //   }, totalOrderCount[0].updatedAt);
 
-    const filtered = totalOrderCount.filter((order) => {
-      const orderDateOnly = new Date(order.updatedAt)
-        .toISOString()
-        .split("T")[0];
-      return orderDateOnly === mostRecentDateOnly;
-    });
+  //   const mostRecentDateOnly = new Date(mostRecentDate)
+  //     .toISOString()
+  //     .split("T")[0];
 
-    recentOrderItems = filtered
-      .flatMap((order) => order.orderItems)
-      .map((item) => ({
-        productName: item.productName,
-        productImage: item.productImage,
-        productPrice: item.productPrice,
-        productDescription: item.productDescription,
-        ProductDetails:item.ProductDetails
+  //   const filtered = totalOrderCount.filter((order) => {
+  //     const orderDateOnly = new Date(order.updatedAt)
+  //       .toISOString()
+  //       .split("T")[0];
+  //     return orderDateOnly === mostRecentDateOnly;
+  //   });
 
-      }));
-  }
+  //   recentOrderItems = filtered
+  //     .flatMap((order) => order.orderItems)
+  //     .map((item) => ({
+  //       productName: item.productName,
+  //       productImage: item.productImage,
+  //       productPrice: item.productPrice,
+  //       productDescription: item.productDescription,
+  //       ProductDetails:item.ProductDetails
+
+  //     }));
+  // }
 
   return (
     <div className="p-6 min-h-screen">
@@ -97,7 +112,6 @@ const Dashboard = () => {
               count={orderDetailsCount?.data?.rejectedOrders ?? "0"}
               icon={<MdCancel className="" />}
             />
-
             <Link
               to={"/order-details"}
               state={{ totalOrders: totalOrderCount }}
@@ -111,7 +125,7 @@ const Dashboard = () => {
             </Link>
           </div>
 
-          <div className="max-w-[53rem] mt-5 rounded-2xl border-2 border-gray-200 bg-white px-4 pb-3 pt-4  sm:px-6">
+          {/* <div className="max-w-[53rem] mt-5 rounded-2xl border-2 border-gray-200 bg-white px-4 pb-3 pt-4  sm:px-6">
             <div className="flex flex-col gap-2 mb-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 ">
@@ -173,7 +187,58 @@ const Dashboard = () => {
                 </tbody>
               </table>
             </div>
-          </div>
+          </div> */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div className="rounded-2xl border-2 border-gray-200 bg-white p-4">
+          <h3 className="text-lg font-semibold mb-4">Monthly Orders</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={monthlyOrders}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis allowDecimals={false} />
+              <Tooltip />
+              <Bar dataKey="orders" fill="#033468" radius={[6, 6, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="rounded-2xl border-2 border-gray-200 bg-white p-4">
+          <h3 className="text-lg font-semibold mb-4">Monthly Revenue (Rs.)</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={monthlyRevenue}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="month" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="revenue" stroke="#ff9800" strokeWidth={3} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="rounded-2xl border-2 border-gray-200 bg-white p-4 md:col-span-2">
+          <h3 className="text-lg font-semibold mb-4">Order Status Distribution</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={statusDistribution}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                label
+              >
+                {statusDistribution.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
 
           {isModalOpen && <NotificationModal setIsModalOpen={setIsModalOpen} />}
         </>

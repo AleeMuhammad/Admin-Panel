@@ -89,10 +89,15 @@ export const apiSlice = createApi({
     getTotalOrder: builder.query({
       query: () => "/order/all",
     }),
+    // getUsers: builder.query({
+    //   query: ({limit=10,offset=0}) => `/user/allUsers?limit=${limit}&offset=${offset}`,
+    //   providesTags: ["User"],
+    // }),
     getUsers: builder.query({
-      query: ({limit,offset}) => `/user/allUsers?limit=${limit}&offset=${offset}`,
-      providesTags: ["User"],
-    }),
+  query: ({ limit = 10, offset = 0, search = "" }) =>
+    `/user/allUsers?limit=${limit}&offset=${offset}&search=${encodeURIComponent(search)}`,
+  providesTags: ["User"],
+}),
     deleteUser: builder.mutation({
       query: (id) => ({
         url: `/user/delete/${id}`,
