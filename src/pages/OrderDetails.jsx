@@ -156,13 +156,17 @@ const OrderDetails = () => {
               ))}
 
               <div className="flex justify-between items-center mt-4 sm:mt-6 text-base sm:text-lg font-semibold text-gray-900">
+                <p>Order Amount:</p>
+                <p>PKR {order?.amount.toFixed(2)}</p>
+              </div>
+              <div className="flex justify-between items-center mt-4 sm:mt-6 text-base sm:text-lg font-semibold text-gray-900">
                 <p>Delivery Fee:</p>
                 <p>PKR {order?.delivery_fee?.toFixed(2)}</p>
               </div>
 
               <div className="flex justify-between items-center mt-3 sm:mt-4 border-t border-gray-200 pt-3 sm:pt-4 text-xl sm:text-2xl font-bold text-gray-900">
                 <p>Total Amount:</p>
-                <p>PKR {order.amount.toFixed(2)}</p>
+                <p>PKR {(order?.amount + order.delivery_fee).toFixed(2)}</p>
               </div>
             </div>
           </div>

@@ -22,7 +22,7 @@ import {
   useGetTotalOrderQuery,
 } from "../redux/apiSlice";
 
-const COLORS = ["#033468", "#ff9800", "#4caf50", "#f44336"];
+const COLORS = ["#ff9800", "#2a4365", "#4caf50", "#f44336"];
 
 
 const Dashboard = () => {
