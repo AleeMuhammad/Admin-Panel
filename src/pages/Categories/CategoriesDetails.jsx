@@ -87,36 +87,73 @@ const CategoriesDetails = () => {
     setIsModalOpen(true);
   };
 
-  const handleProductSubmit = async (data) => {
-    try {
-      const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("description", data.description);
-      formData.append("categoryId", data.category);
-      formData.append("price", data.price);
-      formData.append("details", data.details);
-      if (data.image && data.image[0]) {
-        formData.append("image", data.image[0]);
-      }
-      formData.append("oldPrice", data.oldPrice);
+  // const handleProductSubmit = async (data) => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("name", data.name);
+  //     formData.append("description", data.description);
+  //     formData.append("categoryId", data.category);
+  //     formData.append("price", data.price);
+  //     formData.append("details", data.details);
+  //     if (data.image && data.image[0]) {
+  //       formData.append("image", data.image[0]);
+  //     }
+  //     formData.append("oldPrice", data.oldPrice);
 
-      let response;
-      if (productToEdit) {
-        response = await updateProduct({
-          id: productToEdit._id,
-          updatedProduct: formData,
-        });
-        toast.success(response?.data?.message || "Updated successfully");
-        setProductToEdit(null);
-      } else {
-        response = await addProduct(formData);
-        toast.success(response?.data?.message || "Added successfully");
-      }
-      setIsModalOpen(false);
-    } catch (error) {
-      toast.error("Failed to save product");
+  //     let response;
+  //     if (productToEdit) {
+  //       response = await updateProduct({
+  //         id: productToEdit._id,
+  //         updatedProduct: formData,
+  //       });
+  //       toast.success(response?.data?.message || "Updated successfully");
+  //       setProductToEdit(null);
+  //     } else {
+  //       response = await addProduct(formData);
+  //       toast.success(response?.data?.message || "Added successfully");
+  //     }
+  //     setIsModalOpen(false);
+  //   } catch (error) {
+  //     toast.error("Failed to save product");
+  //   }
+  // };
+
+  const handleProductSubmit = async (data) => {
+  try {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("categoryId", data.category);
+    formData.append("price", data.price);
+    formData.append("details", data.details);
+    formData.append("oldPrice", data.oldPrice);
+    // formData.append("keywords",JSON.stringify(data.keywords));
+
+    if (data.image && data.image[0]) {
+      formData.append("image", data.image[0]); 
+    } else if (productToEdit?.image) {
+      formData.append("image", productToEdit.image); 
     }
-  };
+
+    let response;
+    if (productToEdit) {
+      response = await updateProduct({
+        id: productToEdit._id,
+        updatedProduct: formData,
+      });
+      toast.success(response?.data?.message || "Updated successfully");
+      setProductToEdit(null);
+    } else {
+      response = await addProduct(formData);
+      toast.success(response?.data?.message || "Added successfully");
+    }
+
+    setIsModalOpen(false);
+  } catch (error) {
+    toast.error("Failed to save product");
+  }
+};
+
 
   return (
     <div className="mt-4 min-h-screen">
@@ -215,14 +252,14 @@ const CategoriesDetails = () => {
                       <tbody className="divide-y-2 divide-gray-100">
                         {filteredProducts.map((prod) => (
                           <tr key={prod?._id}>
-                            <td className="px-4 py-4 ">
+                            <td className="px-4 py-4 flex justify-center ">
                               <img
                                 src={
                                   prod?.image ||
                                   `https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541`
                                 }
                                 alt={prod?.name || "Product"}
-                                className="w-16 h-16 object-cover rounded-full"
+                                className="w-16 h-16 object-contain rounded-full"
                               />
                             </td>
                             <td className="px-4 py-3 text-gray-500">

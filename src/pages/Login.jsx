@@ -1,15 +1,36 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
+import { messaging } from "../firebase";
+import { getToken } from "firebase/messaging";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { loginSessionOnly, loginuser } from "../redux/Authslice";
+import { loginuser } from "../redux/Authslice";
 import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../redux/apiSlice";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { BiChevronLeft } from "react-icons/bi";
-import { persistor } from "../redux/Store";
+// import { persistor } from "../redux/Store";
+
 
 const Login = () => {
+  const [fcmToken,setFcmToke]=useState();
+
+const requestpermission = async()=>{
+ const permission=await Notification.requestPermission();
+ if(permission==='granted'){
+  //generaate token
+  const token=await getToken(messaging,{vapidKey:'BKJ5b8wibYGcQcAV4OFfQ5zbIkMS1HpE_wGbl0yFD9M2BogTwncBFjkZwt7JJJKWnkqopak77s0yhGbPw_YHcpc'})
+  console.log(token);
+  setFcmToke(token);
+ }else if(permission==='denied'){
+  alert("You denied for the notification")
+ }
+}
+  useEffect(() => {
+  requestpermission()
+  }, [])
+
+  
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -26,6 +47,7 @@ const Login = () => {
     const response = await login({
       email: data.email,
       password: data.password,
+      fcmToken:fcmToken
     }).unwrap();
     console.log(response);
 
@@ -116,7 +138,7 @@ const Login = () => {
                     )}
                   </div>
                 </div>
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <input
                       {...register("rememberme")}
@@ -127,13 +149,13 @@ const Login = () => {
                       Keep me logged in
                     </span>
                   </div>
-                  {/* <Link
+                  <Link
                     to="/reset-password"
                     className="text-sm text-brand-500 hover:text-brand-600 dark:text-brand-400"
                   >
                     Forgot password?
-                  </Link> */}
-                </div>
+                  </Link>
+                </div> */}
                 <div>
                   <button className="w-full bg-blue-600 cursor-pointer hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300">
                     Sign in

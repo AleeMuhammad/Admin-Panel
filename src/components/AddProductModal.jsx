@@ -26,6 +26,7 @@ const AddProductModal = ({
         price: productToEdit.price,
         details: productToEdit.details,
         oldPrice: productToEdit.oldPrice,
+        // keywords: productToEdit?.keywords?.join(", ") || "",
         // image: null, // file input ko empty rakho
       });
     } else {
@@ -35,14 +36,23 @@ const AddProductModal = ({
         category: id,
         price: "",
         details: "",
-        oldPrice: "",
+        oldPrice: "0",
+        // keywords:"",
         image: null,
       });
     }
   }, [productToEdit, reset, id]);
 
   const onSubmit = async (data) => {
+    // const keywordArray=data.keywords
+    // .split(",")
+    // .map((k)=>k.trim().toLowerCase())
+    // .filter(Boolean)
+    // console.log(keywordArray);
+    // await onSubmitProduct({...data,keywords:keywordArray});
+
     await onSubmitProduct(data);
+
   };
 
   return (
@@ -156,7 +166,7 @@ const AddProductModal = ({
               </div>
              )}
 
-             {!productToEdit && ( <div>
+             <div>
                 <label className="block mb-1 text-sm font-medium text-gray-700">
                   Upload Image
                 </label>
@@ -164,7 +174,7 @@ const AddProductModal = ({
                   type="file"
                   accept="image/*"
                   {...register("image", {
-                    required: !productToEdit, // Add me required, Edit me optional
+                    required: !productToEdit, // required in add, optional in edit
                   })}
                   className="w-full px-4  border border-gray-300 rounded-lg text-sm file:cursor-pointer text-gray-600 file:mr-4 file:py-2 file:px-4 py-1 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                 />
@@ -173,7 +183,25 @@ const AddProductModal = ({
                     This field is required
                   </p>
                 )}
-              </div>)}
+              </div>
+
+               {/* <div>
+                <label className="block mb-1 text-sm font-medium text-gray-700">
+                  Product Keywords
+                </label>
+                <input
+                  type="text"
+                  {...register("keywords", {
+                    required:"Please provide at least one keyword",
+                  })}
+                  className="w-full px-4  border border-gray-300 rounded-lg text-sm file:cursor-pointer text-gray-600 file:mr-4 file:py-2 file:px-4 py-1 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                />
+                {errors.keywords && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors?.keywords?.message}
+                  </p>
+                )}
+              </div> */}
 
               <div>
                 <label className="block mb-1 text-sm font-medium text-gray-700">
