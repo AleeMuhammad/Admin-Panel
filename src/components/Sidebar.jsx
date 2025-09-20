@@ -41,7 +41,7 @@ const Sidebar = ({ isOpen, setIsOpen, isCollapsed }) => {
             <img
               src={icon}
               alt=""
-              className={`object-contain ${isCollapsed ? "w-32" : "w-20 "} `}
+              className={`object-contain ${isCollapsed ? "w-28" : "w-12 ml-6"} `}
             />
             <span
               className={`${
