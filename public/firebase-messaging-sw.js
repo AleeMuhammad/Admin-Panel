@@ -23,6 +23,11 @@ messaging.onBackgroundMessage((payload) => {
     body: payload.notification?.body || "",
     icon: payload.notification?.image || "/logo.png"
   };
-
+try {
+    const audio = new Audio('/order.mp3');
+    audio.play().catch(err => console.log("SW Audio Error:", err));
+  } catch (e) {
+    console.log("Audio cannot play in service worker:", e);
+  }
   return self.registration.showNotification(notificationTitle, notificationOptions);
 });
