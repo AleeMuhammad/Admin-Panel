@@ -34,7 +34,6 @@ function App() {
     <>
       <RouterProvider router={router} />
       <FirebaseNotificationListener/>
-      <ToastContainer position="top-right" autoClose={5000}/>
     </>
   );
 }
